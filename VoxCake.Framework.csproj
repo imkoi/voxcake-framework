@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{BF475FAF-0652-45DC-B997-419944AB6164}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>VoxCake.Framework</RootNamespace>
+        <AssemblyName>VoxCake.Framework</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.3.9f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="VoxCake.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\GitHub\voxcakecommon\bin\Debug\net472\VoxCake.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="VoxCake.IoC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\GitHub\voxcakeioc\bin\Debug\VoxCake.IoC.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Source\CommandBinder\CommandBinder.cs" />
+        <Compile Include="Source\CommandBinder\CommandBinding.cs" />
+        <Compile Include="Source\CommandBinder\ICommandBinder.cs" />
+        <Compile Include="Source\CommandBinder\ICommandBinding.cs" />
+        <Compile Include="Source\Context\Context.cs" />
+        <Compile Include="Source\Context\ContextLoadingData.cs" />
+        <Compile Include="Source\DependencyBinder\DependencyBinder.cs" />
+        <Compile Include="Source\DependencyBinder\DependencyBinding.cs" />
+        <Compile Include="Source\DependencyBinder\DirectBinding.cs" />
+        <Compile Include="Source\DependencyBinder\IDependencyBinder.cs" />
+        <Compile Include="Source\DependencyBinder\IDependencyBinding.cs" />
+        <Compile Include="Source\DependencyBinder\IDirectBinding.cs" />
+        <Compile Include="Source\Initializable\IInitializable.cs" />
+        <Compile Include="Source\Initializable\IInitializableQueue.cs" />
+        <Compile Include="Source\Initializable\InitializableQueue.cs" />
+        <Compile Include="Source\Patterns\Command.cs" />
+        <Compile Include="Source\Patterns\Observer.cs" />
+        <Compile Include="Source\Tickable\ITickable.cs" />
+        <Compile Include="Source\Tickable\TickableObject.cs" />
+        <Compile Include="Source\Utilities\MonoBehaviourCache.cs" />
+        <Compile Include="Source\Utilities\MonoBehaviourStateData.cs" />
+        <Compile Include="Source\Utilities\SceneLoadingUtility.cs" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>
