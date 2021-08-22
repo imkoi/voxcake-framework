@@ -1,49 +1,46 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using VoxCake.Common.Utilities;
 
 namespace VoxCake.Framework.Utilities
 {
     internal static class SceneLoadingUtility
     {
-        internal static async Task LoadScene(string sceneName, Stopwatch sw, int maxTaskFreezeMs,
-            CancellationToken cancellationToken)
+        private const string UNLOAD_SCENE_FAIL_MESSAGE =
+            "Failed to unload scene \"{0}\", because its null or empty!";
+        
+        internal static IEnumerator LoadScene(string sceneName)
         {
             var operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            await Awaiter.ReduceTaskFreezeAsync(sw, maxTaskFreezeMs, cancellationToken);
-            
-            while (!operation.isDone)
-            {
-                await Awaiter.WaitMs(cancellationToken);
-            }
+
+            yield return operation;
 
             var scene = SceneManager.GetSceneByName(sceneName);
             SceneManager.SetActiveScene(scene);
-            await Awaiter.ReduceTaskFreezeAsync(sw, maxTaskFreezeMs, cancellationToken);
         }
 
-        internal static async Task UnloadScenes(string[] unloadScenes, Stopwatch sw, int maxTaskFreezeMs,
-            CancellationToken cancellationToken)
+        internal static IEnumerator UnloadScenes(IEnumerable<string> unloadScenes)
         {
-            var unloadCount = unloadScenes.Length;
-            for (var i = 0; i < unloadCount; i++)
+            foreach (var unloadScene in unloadScenes)
             {
-                await UnloadScene(unloadScenes[i], sw, maxTaskFreezeMs, cancellationToken);
+                yield return UnloadScene(unloadScene);
             }
         }
 
-        private static async Task UnloadScene(string sceneName, Stopwatch sw, int maxTaskFreezeMs,
-            CancellationToken cancellationToken)
+        private static IEnumerator UnloadScene(string sceneName)
         {
-            var scene = SceneManager.GetSceneByName(sceneName);
-            var operation = SceneManager.UnloadSceneAsync(scene);
-            await Awaiter.ReduceTaskFreezeAsync(sw, maxTaskFreezeMs, cancellationToken);
-            
-            while (!operation.isDone)
+            var isSceneUnloadable = !string.IsNullOrEmpty(sceneName);
+
+            if (isSceneUnloadable)
             {
-                await Awaiter.WaitMs(cancellationToken);
+                var scene = SceneManager.GetSceneByName(sceneName);
+                var operation = SceneManager.UnloadSceneAsync(scene);
+
+                yield return operation;
+            }
+            else
+            {
+                throw new FrameworkException(string.Format(UNLOAD_SCENE_FAIL_MESSAGE, sceneName));
             }
         }
     }
